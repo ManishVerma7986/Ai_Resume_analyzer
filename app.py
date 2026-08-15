@@ -25,16 +25,59 @@ st.set_page_config(
 )
 
 
-def inject_styles():
-    st.markdown(
-        """
+def inject_styles(dark_mode):
+    palette = {
+        "background": "#f7f8fc",
+        "surface": "#ffffff",
+        "surface_soft": "#f0f3ff",
+        "ink": "#17213a",
+        "muted": "#5f6c80",
+        "line": "#dfe4ef",
+        "brand": "#5b54e8",
+        "brand_dark": "#4640c9",
+        "accent": "#0f9f88",
+        "chip": "#ecebff",
+        "chip_ink": "#4037aa",
+        "danger_bg": "#fff0eb",
+        "danger": "#b6452d",
+        "sidebar": "#151e3b",
+        "sidebar_ink": "#edf1ff",
+        "sidebar_muted": "#bdc8e7",
+        "grid": "#e8ebf2",
+        "shadow": "rgba(22, 31, 58, .06)",
+    }
+    if dark_mode:
+        palette = {
+            "background": "#101525",
+            "surface": "#1a2237",
+            "surface_soft": "#242d45",
+            "ink": "#f2f5ff",
+            "muted": "#b5bfd4",
+            "line": "#34415d",
+            "brand": "#a9a3ff",
+            "brand_dark": "#847cff",
+            "accent": "#58d5bd",
+            "chip": "#2d3159",
+            "chip_ink": "#d8d5ff",
+            "danger_bg": "#472d35",
+            "danger": "#ffb7a4",
+            "sidebar": "#0a1020",
+            "sidebar_ink": "#f2f5ff",
+            "sidebar_muted": "#b8c3df",
+            "grid": "#303a52",
+            "shadow": "rgba(0, 0, 0, .24)",
+        }
+    css = """
         <style>
-        :root { --ink: #11203b; --muted: #64748b; --line: #e6eaf1; --brand: #635bff; --mint: #16bca1; }
-        .stApp { background: #f7f8fc; color: var(--ink); }
-        [data-testid="stHeader"] { background: rgba(247, 248, 252, .82); backdrop-filter: blur(12px); }
-        [data-testid="stSidebar"] { background: #101a35; }
-        [data-testid="stSidebar"] * { color: #eef2ff !important; }
-        [data-testid="stSidebar"] .stFileUploader, [data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
+        :root {{ --background: {palette['background']}; --surface: {palette['surface']}; --surface-soft: {palette['surface_soft']}; --ink: {palette['ink']}; --muted: {palette['muted']}; --line: {palette['line']}; --brand: {palette['brand']}; --brand-dark: {palette['brand_dark']}; --accent: {palette['accent']}; --chip: {palette['chip']}; --chip-ink: {palette['chip_ink']}; --danger-bg: {palette['danger_bg']}; --danger: {palette['danger']}; --sidebar: {palette['sidebar']}; --sidebar-ink: {palette['sidebar_ink']}; --sidebar-muted: {palette['sidebar_muted']}; --grid: {palette['grid']}; --shadow: {palette['shadow']}; }}
+        .stApp, [data-testid="stAppViewContainer"] {{ background: var(--background); color: var(--ink); }}
+        [data-testid="stHeader"] {{ background: color-mix(in srgb, var(--background) 84%, transparent); backdrop-filter: blur(12px); }}
+        [data-testid="stSidebar"] {{ background: var(--sidebar); }}
+        [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {{ color: var(--sidebar-ink); }}
+        [data-testid="stSidebar"] [data-testid="stCaptionContainer"] p {{ color: var(--sidebar-muted); }}
+        [data-testid="stSidebar"] .stFileUploader, [data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] {{ background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.2); }}
+        [data-testid="stSidebar"] hr {{ border-color: rgba(255,255,255,.15); }}
+        [data-testid="stSidebar"] [data-testid="stWidgetLabel"] p {{ color: var(--sidebar-ink); }}
         .block-container { max-width: 1240px; padding-top: 2.2rem; padding-bottom: 3rem; }
         .hero { position: relative; overflow: hidden; padding: 2.4rem; border-radius: 26px; color: white; background: linear-gradient(125deg, #111c3d 0%, #3e38aa 55%, #6b5dff 100%); box-shadow: 0 18px 45px rgba(48, 45, 133, .22); animation: rise .55s ease-out both; }
         .hero:after { content: ''; position: absolute; width: 360px; height: 360px; right: -100px; top: -180px; border-radius: 50%; background: radial-gradient(circle, rgba(68,227,199,.55), rgba(255,255,255,0) 68%); }
@@ -43,30 +86,39 @@ def inject_styles():
         .hero p { position: relative; z-index: 1; max-width: 630px; margin: .85rem 0 0; color: #dbe5ff; font-size: 1.05rem; }
         .section-title { margin: 2.1rem 0 .25rem; font-size: 1.28rem; font-weight: 800; letter-spacing: -.02em; }
         .section-kicker { color: var(--muted); margin-bottom: 1rem; }
-        .metric-card { height: 100%; min-height: 126px; box-sizing: border-box; padding: 1.1rem 1.2rem; border-radius: 18px; background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(15, 23, 42, .045); animation: rise .5s ease-out both; }
+        .metric-card { height: 100%; min-height: 126px; box-sizing: border-box; padding: 1.1rem 1.2rem; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 20px var(--shadow); animation: rise .5s ease-out both; }
         .metric-label { color: var(--muted); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .065em; }
         .metric-value { margin-top: .45rem; color: var(--ink); font-size: 2rem; line-height: 1; font-weight: 800; letter-spacing: -.045em; }
         .metric-note { color: var(--muted); font-size: .83rem; margin-top: .6rem; }
-        .panel { padding: 1.25rem; border-radius: 18px; background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(15, 23, 42, .04); }
-        .skill-pill { display: inline-block; margin: .24rem .28rem .1rem 0; padding: .35rem .63rem; border-radius: 999px; background: #eef1ff; color: #4037aa; font-size: .84rem; font-weight: 650; }
-        .missing-pill { background: #fff1ed; color: #c04d2c; }
-        .empty-state { text-align: center; padding: 2.4rem 1.5rem; background: white; border: 1px dashed #cdd5e1; border-radius: 20px; }
-        .empty-orb { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: #ecebff; color: #5449e8; font-size: 1.6rem; }
-        .stButton > button, .stDownloadButton > button { border-radius: 10px; font-weight: 700; border: 0; padding: .58rem 1rem; transition: transform .18s ease, box-shadow .18s ease; }
-        .stButton > button:hover, .stDownloadButton > button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(80, 70, 220, .18); }
-        [data-testid="stFileUploaderDropzone"] { border-radius: 14px; }
-        div[data-testid="stMetric"] { background: white; border: 1px solid var(--line); padding: .8rem; border-radius: 14px; }
+        .panel { padding: 1.25rem; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 20px var(--shadow); }
+        .skill-pill { display: inline-block; margin: .24rem .28rem .1rem 0; padding: .35rem .63rem; border-radius: 999px; background: var(--chip); color: var(--chip-ink); font-size: .84rem; font-weight: 650; }
+        .missing-pill { background: var(--danger-bg); color: var(--danger); }
+        .empty-copy { color: var(--muted); }
+        .empty-state { text-align: center; padding: 2.4rem 1.5rem; background: var(--surface); border: 1px dashed var(--line); border-radius: 20px; }
+        .empty-orb { display: inline-grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: var(--chip); color: var(--brand); font-size: 1.6rem; }
+        .stButton > button, .stDownloadButton > button { background: var(--brand); color: #fff; border-radius: 10px; font-weight: 700; border: 0; padding: .58rem 1rem; transition: transform .18s ease, box-shadow .18s ease; }
+        .stButton > button:hover, .stDownloadButton > button:hover { background: var(--brand-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 8px 18px color-mix(in srgb, var(--brand) 28%, transparent); }
+        [data-testid="stFileUploaderDropzone"], [data-testid="stExpander"], div[data-baseweb="select"] > div, [data-testid="stTextArea"] textarea {{ background: var(--surface); border-color: var(--line); color: var(--ink); }}
+        [data-testid="stFileUploaderDropzone"] {{ border-radius: 14px; }}
+        [data-testid="stFileUploaderDropzone"] * {{ color: var(--ink); }}
+        [data-testid="stTextArea"] textarea::placeholder {{ color: var(--muted); opacity: .9; }}
+        [data-testid="stExpander"] details summary span, [data-testid="stWidgetLabel"] p, [data-testid="stCheckbox"] label, [data-testid="stCaptionContainer"] p {{ color: var(--ink); }}
+        div[data-testid="stMetric"] {{ background: var(--surface); border: 1px solid var(--line); padding: .8rem; border-radius: 14px; }}
+        div[data-testid="stMetric"] label, div[data-testid="stMetric"] [data-testid="stMetricValue"] {{ color: var(--ink); }}
+        .stProgress > div > div > div > div {{ background-color: var(--brand); }}
         @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
         </style>
-        """,
-        unsafe_allow_html=True,
-    )
+        """
+    for name, value in palette.items():
+        css = css.replace("{palette['" + name + "']}", value)
+    css = css.replace("{{", "{").replace("}}", "}")
+    st.markdown(css, unsafe_allow_html=True)
 
 
 def pills(items, missing=False):
     if not items:
-        return "<span style='color:#64748b'>None detected yet</span>"
+        return "<span class='empty-copy'>None detected yet</span>"
     kind = " missing-pill" if missing else ""
     return "".join(f"<span class='skill-pill{kind}'>{item}</span>" for item in items)
 
@@ -99,17 +151,20 @@ def build_report(analysis):
         return report_file.read(), os.path.basename(report_path)
 
 
-inject_styles()
-
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = False
 with st.sidebar:
     st.markdown("## ✦ Career Compass")
     st.caption("Resume intelligence, made practical.")
     st.divider()
+    dark_mode = st.toggle("Dark appearance", key="dark_mode")
     uploaded_file = st.file_uploader("Upload your resume", type=["pdf", "docx"], help=f"PDF or DOCX, up to {MAX_UPLOAD_SIZE_MB} MB")
     st.caption("Your file is used only for the analysis in this session.")
     st.divider()
     st.markdown("**How it works**")
     st.caption("1. Extract skills\n\n2. Compare career paths\n\n3. Build an action plan")
+
+inject_styles(dark_mode)
 
 st.markdown(
     """
@@ -134,7 +189,7 @@ if uploaded_file is None:
     for column, (number, title, description) in zip(feature_cols, feature_data):
         with column:
             st.markdown(f"<div class='metric-card'><div class='metric-label'>{number}</div><div style='font-size:1.15rem;font-weight:800;margin-top:.55rem'>{title}</div><div class='metric-note'>{description}</div></div>", unsafe_allow_html=True)
-    st.markdown("<div class='empty-state' style='margin-top:1.5rem'><div class='empty-orb'>↑</div><h3 style='margin:.7rem 0 .25rem'>Ready when you are</h3><span style='color:#64748b'>Your analysis appears here after you choose a file.</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='empty-state' style='margin-top:1.5rem'><div class='empty-orb'>↑</div><h3 style='margin:.7rem 0 .25rem'>Ready when you are</h3><span class='empty-copy'>Your analysis appears here after you choose a file.</span></div>", unsafe_allow_html=True)
     st.stop()
 
 uploaded_file.seek(0, os.SEEK_END)
@@ -182,6 +237,11 @@ results = compute_similarity_scores(
 )
 df = pd.DataFrame(results)
 top_match = results[0]
+chart_text = "#f2f5ff" if dark_mode else "#24324b"
+chart_grid = "#303a52" if dark_mode else "#e8ebf2"
+gauge_background = "#242d45" if dark_mode else "#edf0fb"
+gauge_bar = "#a9a3ff" if dark_mode else "#635bff"
+bar_palette = ["#585276", "#847cff", "#58d5bd"] if dark_mode else ["#c9c6ff", "#635bff", "#17b89d"]
 
 st.markdown("<div class='section-title'>Your career snapshot</div>", unsafe_allow_html=True)
 snapshot = st.columns(4)
@@ -200,13 +260,13 @@ with left_col:
     st.markdown("<div class='section-title'>Role compatibility</div>", unsafe_allow_html=True)
     st.markdown("<div class='section-kicker'>A blended score from relevant resume language and required-skill coverage.</div>", unsafe_allow_html=True)
     chart_df = df.sort_values("final_score")
-    fig = px.bar(chart_df, x="final_score", y="role", orientation="h", text="final_score", color="final_score", color_continuous_scale=["#c9c6ff", "#635bff", "#17b89d"])
+    fig = px.bar(chart_df, x="final_score", y="role", orientation="h", text="final_score", color="final_score", color_continuous_scale=bar_palette)
     fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", cliponaxis=False, hovertemplate="<b>%{y}</b><br>Match score: %{x:.1f}%<extra></extra>")
-    fig.update_layout(height=350, margin=dict(l=0, r=45, t=8, b=0), coloraxis_showscale=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(title="", range=[0, 105], showgrid=True, gridcolor="#edf0f5"), yaxis=dict(title=""), font=dict(color="#24324b"))
+    fig.update_layout(height=350, margin=dict(l=0, r=45, t=8, b=0), coloraxis_showscale=False, paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", xaxis=dict(title="", range=[0, 105], showgrid=True, gridcolor=chart_grid), yaxis=dict(title=""), font=dict(color=chart_text))
     st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 with right_col:
     st.markdown("<div class='section-title'>Top direction</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='panel'><div class='eyebrow' style='color:#635bff'>{top_match['final_score']}% compatibility</div><div style='font-size:1.5rem;font-weight:800;letter-spacing:-.03em'>{top_match['role']}</div><p style='color:#64748b;font-size:.92rem;margin:.6rem 0 1rem'>{insight_from_score(top_match['final_score'])}</p><div style='color:#64748b;font-size:.78rem;text-transform:uppercase;font-weight:800;letter-spacing:.06em'>Skill coverage</div><div style='font-size:1.45rem;font-weight:800;margin-top:.2rem'>{top_match['skill_coverage']}%</div></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='panel'><div class='eyebrow' style='color:var(--brand)'>{top_match['final_score']}% compatibility</div><div style='font-size:1.5rem;font-weight:800;letter-spacing:-.03em'>{top_match['role']}</div><p style='color:var(--muted);font-size:.92rem;margin:.6rem 0 1rem'>{insight_from_score(top_match['final_score'])}</p><div style='color:var(--muted);font-size:.78rem;text-transform:uppercase;font-weight:800;letter-spacing:.06em'>Skill coverage</div><div style='font-size:1.45rem;font-weight:800;margin-top:.2rem'>{top_match['skill_coverage']}%</div></div>", unsafe_allow_html=True)
 
 st.markdown("<div class='section-title'>Explore your target role</div>", unsafe_allow_html=True)
 target = st.selectbox("Choose a role to inspect", df["role"].tolist(), label_visibility="collapsed")
@@ -222,9 +282,9 @@ with details_left:
     radar = go.Figure(go.Indicator(
         mode="gauge+number",
         value=coverage_pct,
-        number={"suffix": "%", "font": {"size": 42, "color": "#11203b"}},
-        title={"text": "Target-role skill coverage", "font": {"size": 16, "color": "#64748b"}},
-        gauge={"axis": {"range": [0, 100], "visible": False}, "bar": {"color": "#635bff", "thickness": .72}, "bgcolor": "#edf0fb", "borderwidth": 0, "steps": [{"range": [0, 100], "color": "#edf0fb"}]},
+        number={"suffix": "%", "font": {"size": 42, "color": chart_text}},
+        title={"text": "Target-role skill coverage", "font": {"size": 16, "color": chart_text}},
+        gauge={"axis": {"range": [0, 100], "visible": False}, "bar": {"color": gauge_bar, "thickness": .72}, "bgcolor": gauge_background, "borderwidth": 0, "steps": [{"range": [0, 100], "color": gauge_background}]},
     ))
     radar.update_layout(height=230, margin=dict(l=20, r=20, t=55, b=8), paper_bgcolor="rgba(0,0,0,0)")
     st.plotly_chart(radar, use_container_width=True, config={"displayModeBar": False})
