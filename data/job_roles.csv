@@ -1,0 +1,6 @@
+role,description,required_skills
+Data Analyst,"Analyze data, create reports and dashboards.",Python;SQL;Excel;Pandas;Power BI
+Machine Learning Engineer,"Build and deploy ML models and pipelines.",Python;Machine Learning;Scikit-learn;TensorFlow;PyTorch;Docker
+AI Engineer,"Design AI systems, LLM/RAG, and production APIs.",Python;Deep Learning;LLM;RAG;APIs;Docker
+NLP Engineer,"Work on language models, transformers and text pipelines.",Python;NLP;Transformers;Hugging Face;Scikit-learn
+Computer Vision Engineer,"Build CV models for images and video.",Python;OpenCV;CNN;YOLO;Deep Learning

@@ -1,0 +1,31 @@
+skill,category,aliases
+Python,Programming,python
+Java,Programming,java
+C++,Programming,C++
+C#,Programming,C#
+.NET,Frameworks,.net
+SQL,Database,sql
+Excel,Data Analysis,excel
+Pandas,Data Analysis,pandas
+NumPy,Data Analysis,numpy
+Power BI,Tools,power bi;powerbi
+Machine Learning,Machine Learning,machine learning
+Scikit-learn,Machine Learning,scikit-learn;sklearn
+TensorFlow,Deep Learning,tensorflow
+PyTorch,Deep Learning,pytorch
+Deep Learning,Deep Learning,deep learning
+NLP,NLP,nlp
+Transformers,NLP,transformers
+Hugging Face,NLP,huggingface;hugging face
+OpenCV,Computer Vision,opencv
+CNN,Computer Vision,cnn
+YOLO,Computer Vision,yolo
+FastAPI,Frameworks,fastapi
+Docker,DevOps,docker
+AWS,Cloud,aws
+Git,Tools,git
+GitHub,Tools,github
+LLM,AI/LLM,llm
+RAG,AI/LLM,rag
+APIs,Tools,api;apis
+MLflow,Tools,mlflow
